@@ -23,7 +23,7 @@ public class TestSendMsg {
 		MessageCreator mapMC = session -> {
             MapMessage mapMsg = session.createMapMessage();
             mapMsg.setString("phoneNumbers", "15864299365");
-            mapMsg.setString("templateId", "SMS_142950342");
+            mapMsg.setString("businessCode", "verification_code");
             mapMsg.setString("templateParam", "{\"code\":\"123\"}");
 
             return mapMsg;

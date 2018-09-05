@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.juhaolian.smsservice.dao.SmsTemplateDao">
+
+    <select id="getTemplateId" resultType="java.lang.String" parameterType="java.lang.String">
+        select
+          template_id
+        from sms_template
+        where business_code = #{businessCode}
+        limit 1
+    </select>
+
+</mapper>

@@ -1,5 +1,6 @@
 package com.juhaolian.smsservice;
 
+import com.juhaolian.smsservice.dao.SmsTemplateDao;
 import com.juhaolian.smsservice.domain.ResponseInfo;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.activemq.command.ActiveMQQueue;
@@ -39,6 +40,9 @@ public class Application {
 	@Value("${spring.activemq.queue}")
 	String queueName;
 
+	@Autowired
+	SmsTemplateDao smsTemplateDao;
+
 	@Bean
 	@LoadBalanced
 	public RestTemplate restTemplate() {
@@ -68,7 +72,7 @@ public class Application {
 
 					MultiValueMap<String, String> postParameters = new LinkedMultiValueMap<>();
 					postParameters.add("phoneNumbers", mapMessage.getString("phoneNumbers"));
-					postParameters.add("templateId", mapMessage.getString("templateId"));
+					postParameters.add("templateId", smsTemplateDao.getTemplateId(mapMessage.getString("businessCode")));
 					postParameters.add("templateParam", mapMessage.getString("templateParam"));
 					HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(postParameters, headers);
 
