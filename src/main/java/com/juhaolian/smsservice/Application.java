@@ -1,12 +1,10 @@
 package com.juhaolian.smsservice;
 
-import com.juhaolian.smsservice.dao.SmsTemplateDao;
 import com.juhaolian.smsservice.task.SendSmsTask;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.activemq.command.ActiveMQQueue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -37,12 +35,6 @@ public class Application {
 	@Value("${spring.activemq.queue}")
 	String queueName;
 
-	@Autowired
-	SmsTemplateDao smsTemplateDao;
-
-	@Autowired
-	private RestTemplate template;
-
 	@Bean
 	@LoadBalanced
 	public RestTemplate restTemplate() {
@@ -67,7 +59,7 @@ public class Application {
 
 			while (true) {
 				Message msg = consumer.receive();
-				executor.execute(new SendSmsTask(msg, smsTemplateDao, template));
+				executor.execute(new SendSmsTask(msg));
 			}
 		} catch (JMSException je) {
 			logger.error(je.getMessage());
